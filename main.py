@@ -10,7 +10,7 @@ headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/
 
 
 def get_video_url(tiktok_url):
-    '''Extract video source url from usual TikTok url
+    '''Extract a video source url from usual TikTok url
 
     Parameters:
     tiktok_url (str): TikTok url
@@ -22,14 +22,14 @@ def get_video_url(tiktok_url):
     r = requests.get(tiktok_url, headers=headers, allow_redirects=True)
 
     if r.status_code != 200:
-        print('Bad request to TikTok server. Status code: {}'.format(r.status_code))
+        print('Bad request to TikTok server. Ereor status code: {}'.format(r.status_code))
         sys.exit(1)
 
     soup = BeautifulSoup(r.text, 'html.parser')
     data = soup.find('script', attrs={'id': '__NEXT_DATA__'})
 
     if not data:
-        print('Can\'t get data from url. Check error.txt')
+        print('Can\'t get some data from this url. Check error.txt')
         
         with open('error.txt', 'w', encoding='utf-8') as f:
             f.write(r.text)
@@ -73,7 +73,7 @@ def get_video_id(soruce_video_url):
     position = content.find('vid:'.encode())
 
     if position == -1:
-        print('Can\'t find video id')
+        print('Can\'t find a video id')
         sys.exit(1)
 
     video_id = content[position+4:position+36].decode('utf-8')
@@ -82,7 +82,7 @@ def get_video_id(soruce_video_url):
 
 
 def download_video(video_id):
-    '''Downloads video without watermark by video id
+    '''Downloads video from TikTok without watermark by video id
 
     Parameters:
     video_id (str): Video id
